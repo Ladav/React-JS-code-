@@ -9,7 +9,8 @@ class App extends Component {
       { name: 'ash', age: 21 },
       { name: 'chrollo', age: 22 }
     ],
-    otherState: 'this is state property !'
+    otherState: 'this is state property !',
+    showPersons: false
   };
 
   switchNameHandler = (newName) => {
@@ -32,8 +33,13 @@ class App extends Component {
     });
   };
 
-  render() {
+  togglePersonsHandler = () => {
+    this.setState({
+      showPersons: !this.state.showPersons
+    });
+  }
 
+  render() {
     const style__btn = {
       background: '#eee',
       padding: '10px',
@@ -42,24 +48,34 @@ class App extends Component {
       cursor: 'pointer'
     };
 
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div> 
+          <Person 
+          name={this.state.persons[0].name} 
+          age={this.state.persons[0].age}
+          click={() => this.switchNameHandler('la') }>I'm Savage...;)</Person>
+          <Person 
+          name={this.state.persons[1].name} 
+          age={this.state.persons[1].age}
+          changeName={this.nameChangeHandler} />
+          <Person 
+          name={this.state.persons[2].name} 
+          age={this.state.persons[2].age} />
+        </div>
+      );
+    }
+
     return(
     <div className="App">
       <h1>my second react app.</h1>
       <p>it is actually working!</p>
       <button 
       style={style__btn}
-      onClick={this.switchNameHandler.bind(this, 'la')}>Switch name</button> 
-      <Person 
-      name={this.state.persons[0].name} 
-      age={this.state.persons[0].age}
-      click={() => this.switchNameHandler('la') }>I'm Savage...;)</Person>
-      <Person 
-      name={this.state.persons[1].name} 
-      age={this.state.persons[1].age}
-      changeName={this.nameChangeHandler} />
-      <Person 
-      name={this.state.persons[2].name} 
-      age={this.state.persons[2].age} />
+      onClick={this.togglePersonsHandler}>Switch name</button> 
+      {persons}
     </div>
     );
   };
