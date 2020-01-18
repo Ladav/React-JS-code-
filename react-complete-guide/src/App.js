@@ -1,6 +1,22 @@
 import React, { Component } from 'react';
+// import Radium, { StyleRoot } from 'radium';
+import styled from 'styled-components';
 import './App.css';
 import Person from './Person/Person';   // first letter must be capital
+
+const StyledButton = styled.button`
+  background-color: ${(props) => props.alter ? 'red' : 'green'};
+  color: #fff;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => props.alter ? 'salmon' : 'lightgreen'};
+    color: #000;
+  }
+`;
 
 class App extends Component {
   state = {
@@ -41,12 +57,17 @@ class App extends Component {
   }
 
   render() {
-    const style__btn = {
-      background: '#eee',
-      padding: '10px',
-      border: '1px solid #aaa',
-      borderRadius: '5px',
-      cursor: 'pointer'
+    let style__btn = {
+      // backgroundColor: 'green',
+      // color: '#fff',
+      // padding: '10px',
+      // border: '1px solid #aaa',
+      // borderRadius: '5px',
+      // cursor: 'pointer',
+      // ':hover': {
+      //   backgroundColor: 'lightgreen',
+      //   color: '#000'
+      // }
     };
 
     let persons = null;
@@ -55,17 +76,23 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-          return <Person 
-                  click={this.deletePersonHandler.bind(this, index)}
-                  name={person.name} 
-                  age={person.age} 
-                  key={person.id} 
-                  changeName={(event) => this.nameChangeHandler(event, index)}/> })
+            return <Person 
+            click={this.deletePersonHandler.bind(this, index)}
+            name={person.name} 
+            age={person.age} 
+            key={person.id} 
+            changeName={(event) => this.nameChangeHandler(event, index)}/> })
           }
         </div>
       );
-    }
 
+      style__btn.backgroundColor = '#f00';
+      style__btn[':hover'] = {
+        backgroundColor: 'salmon',
+        color: '#000'
+      }
+    }
+    
     // older version 
     if (this.state.showPersons) {
     //   persons = (
@@ -85,15 +112,24 @@ class App extends Component {
     //   );
     }
 
+    const classes = [];
+
+    if(this.state.persons.length <= 2){
+      classes.push('red');
+    }
+    if(this.state.persons.length <= 1){
+      classes.push('bold');
+    }
+
     return(
-    <div className="App">
-      <h1>my second react app.</h1>
-      <p>it is actually working!</p>
-      <button 
-      style={style__btn}
-      onClick={this.togglePersonsHandler}>Switch name</button> 
-      {persons}
-    </div>
+      <div className="App">
+        <h1>my second react app.</h1>
+        <p className={classes.join(' ')}>it is actually working!</p>
+        <StyledButton 
+        alter={this.state.showPersons}
+        onClick={this.togglePersonsHandler}>Switch name</StyledButton> 
+        {persons}
+      </div>
     );
   };
 };
