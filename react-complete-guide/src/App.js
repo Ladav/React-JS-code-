@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 // import Radium, { StyleRoot } from 'radium';
 import styled from 'styled-components';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';   // first letter must be capital
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 const StyledButton = styled.button`
   background-color: ${(props) => props.alter ? 'red' : 'green'};
@@ -57,40 +58,28 @@ class App extends Component {
   }
 
   render() {
-    let style__btn = {
-      // backgroundColor: 'green',
-      // color: '#fff',
-      // padding: '10px',
-      // border: '1px solid #aaa',
-      // borderRadius: '5px',
-      // cursor: 'pointer',
-      // ':hover': {
-      //   backgroundColor: 'lightgreen',
-      //   color: '#000'
-      // }
-    };
-
     let persons = null;
+
+    let btnClasses = '';
 
     if (this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <Person 
-            click={this.deletePersonHandler.bind(this, index)}
-            name={person.name} 
-            age={person.age} 
-            key={person.id} 
-            changeName={(event) => this.nameChangeHandler(event, index)}/> })
+            return (
+            <ErrorBoundary>
+              <Person 
+              click={this.deletePersonHandler.bind(this, index)}
+              name={person.name} 
+              age={person.age} 
+              key={person.id} 
+              changeName={(event) => this.nameChangeHandler(event, index)}/>
+            </ErrorBoundary> )})
           }
         </div>
       );
 
-      style__btn.backgroundColor = '#f00';
-      style__btn[':hover'] = {
-        backgroundColor: 'salmon',
-        color: '#000'
-      }
+      btnClasses = classes.Red;
     }
     
     // older version 
@@ -112,22 +101,21 @@ class App extends Component {
     //   );
     }
 
-    const classes = [];
+    const assignedClasses = [];
 
     if(this.state.persons.length <= 2){
-      classes.push('red');
+      assignedClasses.push(classes.red);
     }
     if(this.state.persons.length <= 1){
-      classes.push('bold');
+      assignedClasses.push(classes.bold);
     }
 
     return(
-      <div className="App">
+      <div className={classes.App}>
         <h1>my second react app.</h1>
-        <p className={classes.join(' ')}>it is actually working!</p>
-        <StyledButton 
-        alter={this.state.showPersons}
-        onClick={this.togglePersonsHandler}>Switch name</StyledButton> 
+        <p className={assignedClasses.join(' ')}>it is actually working!</p>
+        <button className={btnClasses}
+        onClick={this.togglePersonsHandler}>Switch name</button> 
         {persons}
       </div>
     );
