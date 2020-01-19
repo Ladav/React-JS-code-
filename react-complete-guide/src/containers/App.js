@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 // import Radium, { StyleRoot } from 'radium';
+// import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+// import Person from '../components/Persons/Person/Person';   // first letter must be capital
 import styled from 'styled-components';
+
 import classes from './App.css';
-import Person from './Person/Person';   // first letter must be capital
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons';   // first letter must be capital
+import Cockpit from '../components/Cockpit/Cockpit';
 
 const StyledButton = styled.button`
   background-color: ${(props) => props.alter ? 'red' : 'green'};
@@ -60,26 +63,11 @@ class App extends Component {
   render() {
     let persons = null;
 
-    let btnClasses = '';
-
     if (this.state.showPersons) {
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return (
-            <ErrorBoundary>
-              <Person 
-              click={this.deletePersonHandler.bind(this, index)}
-              name={person.name} 
-              age={person.age} 
-              key={person.id} 
-              changeName={(event) => this.nameChangeHandler(event, index)}/>
-            </ErrorBoundary> )})
-          }
-        </div>
-      );
-
-      btnClasses = classes.Red;
+          <Persons personsArr={this.state.persons} 
+          clicked={this.deletePersonHandler} 
+          changed={this.nameChangeHandler} />);
     }
     
     // older version 
@@ -101,21 +89,13 @@ class App extends Component {
     //   );
     }
 
-    const assignedClasses = [];
-
-    if(this.state.persons.length <= 2){
-      assignedClasses.push(classes.red);
-    }
-    if(this.state.persons.length <= 1){
-      assignedClasses.push(classes.bold);
-    }
-
     return(
       <div className={classes.App}>
-        <h1>my second react app.</h1>
-        <p className={assignedClasses.join(' ')}>it is actually working!</p>
-        <button className={btnClasses}
-        onClick={this.togglePersonsHandler}>Switch name</button> 
+        <Cockpit 
+        title={this.props.appTitle}
+        length={this.state.persons.length}
+        showPersons={this.state.showPersons}
+        clicked={this.togglePersonsHandler} />
         {persons}
       </div>
     );
