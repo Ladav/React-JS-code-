@@ -23,6 +23,11 @@ const StyledButton = styled.button`
 `;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor!');
+  }
+
   state = {
     persons: [
       { id: 'abc1', name: 'ladav', age: 21 },
@@ -32,6 +37,28 @@ class App extends Component {
     otherState: 'this is state property !',
     showPersons: false
   };
+
+  static getDrivedStateFromProps(props, state) {
+    console.log('[App.js] getDrivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+
+  componentWillMount() {
+    console.log('[App.js] componentWillMount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  }
+
+  componentDidUpdate(props, state) {
+    console.log('[App.js] componentDidUpdate');
+  }
 
   deletePersonHandler = (index) => {
     //const persons = this.state.persons.slice();
@@ -61,6 +88,8 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render');
+
     let persons = null;
 
     if (this.state.showPersons) {
