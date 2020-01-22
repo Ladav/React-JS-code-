@@ -35,7 +35,8 @@ class App extends Component {
       { id: 'abc3', name: 'chrollo', age: 22 }
     ],
     otherState: 'this is state property !',
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   };
 
   static getDrivedStateFromProps(props, state) {
@@ -47,9 +48,9 @@ class App extends Component {
     console.log('[App.js] componentDidMount');
   }
 
-  componentWillMount() {
-    console.log('[App.js] componentWillMount');
-  }
+  // componentWillMount() {
+  //   console.log('[App.js] componentWillMount');
+  // }
 
   shouldComponentUpdate(nextProps, nextState) {
     console.log('[App.js] shouldComponentUpdate');
@@ -70,12 +71,17 @@ class App extends Component {
     this.setState({ persons: persons });
   };
 
-  nameChangeHandler = (event, index) => {
+  nameChangeHandler = (event, id) => {
+    const index = this.state.persons.findIndex((p) => {
+      return p.id === id;
+    });
+
     const person = {...this.state.persons[index]};  // making a copy as arrays and objects are reference type and it is better to not to alter the original data or state
+    // or const person = Object.assign({}, this.state.persons[index]);
 
     person.name = event.target.value;
 
-    const persons = this.state.persons;
+    const persons = [...this.state.persons];
     persons[index] = person;
 
     this.setState({ persons: persons });
@@ -120,11 +126,14 @@ class App extends Component {
 
     return(
       <div className={classes.App}>
+        <button onClick={() => {this.setState({ showCockpit: false })}}>Remove Cockpit</button>
+        { this.state.showCockpit ? 
         <Cockpit 
         title={this.props.appTitle}
-        length={this.state.persons.length}
+        personLength={this.state.persons.length}
         showPersons={this.state.showPersons}
         clicked={this.togglePersonsHandler} />
+        : null}
         {persons}
       </div>
     );

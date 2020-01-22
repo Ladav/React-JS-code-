@@ -1,31 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import classes from './Cockpit.css';
 
 const Cockpit = (props) => {
-    const assignedClasses = [];
+  useEffect(() => {
+    console.log('[Cockpit.js] useEffect 1');
+    // http request
+    const timer = setTimeout(() => {
+      alert('something happen to persons DB.');
+    },1000);
 
-    let btnClasses = '';
+    return () => {
+      clearTimeout(timer);
+      console.log('[Cockpit.js] doing cleanup work inside useEffect 1!')
+    };
+  }, []);
 
-    if(props.showPersons) {
-        btnClasses = classes.Red;
+  useEffect(() => {
+    console.log('[Cockpit.js] useEffect 2');
+    
+    return () => {
+      console.log('[Cockpit.js] doing cleanup work inside useEffect 2!')
     }
+  });
 
-    if(props.length <= 2){
-      assignedClasses.push(classes.red);
-    }
-    if(props.length <= 1){
-      assignedClasses.push(classes.bold);
-    }
+  const assignedClasses = [];
+  let btnClasses = '';
+  if(props.showPersons) {
+      btnClasses = classes.Red;
+  }
 
-    return (
-        <div className={classes.Cockpit}>
-            <h1>{props.title}</h1>
-            <p className={assignedClasses.join(' ')}>it is actually working!</p>
-            <button className={btnClasses}
-            onClick={props.clicked}>Switch name</button>
-        </div>
-    );
+  if(props.personLength <= 2){
+    assignedClasses.push(classes.red);
+  }
+  if(props.personLength <= 1){
+    assignedClasses.push(classes.bold);
+  }
+
+  return (
+      <div className={classes.Cockpit}>
+          <h1>{props.title}</h1>
+          <p className={assignedClasses.join(' ')}>it is actually working!</p>
+          <button className={btnClasses}
+          onClick={props.clicked}>Switch name</button>
+      </div>
+  );
 };
 
-export default Cockpit;
+export default React.memo(Cockpit);
