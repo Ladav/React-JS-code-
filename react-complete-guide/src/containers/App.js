@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';   // first letter must be capital
 import Cockpit from '../components/Cockpit/Cockpit';
+import WithClass from '../hoc/WithClass';
 
 const StyledButton = styled.button`
   background-color: ${(props) => props.alter ? 'red' : 'green'};
@@ -125,7 +126,7 @@ class App extends Component {
     }
 
     return(
-      <div className={classes.App}>
+      <WithClass classes={classes.App}>
         <button onClick={() => {this.setState({ showCockpit: false })}}>Remove Cockpit</button>
         { this.state.showCockpit ? 
         <Cockpit 
@@ -135,7 +136,7 @@ class App extends Component {
         clicked={this.togglePersonsHandler} />
         : null}
         {persons}
-      </div>
+      </WithClass>
     );
   };
 };
