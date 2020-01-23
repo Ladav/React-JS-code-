@@ -37,7 +37,7 @@ class Persons extends PureComponent {
   }
 
   render() {
-    console.log('[Persons.js] rending...', this.props);
+    console.log('[Persons.js] rending...');
 
     return this.props.personsArr.map((person, index) => {
       return (
@@ -48,8 +48,8 @@ class Persons extends PureComponent {
         click={() => this.props.clicked(index)}
         changeName={(event) => this.props.changed(event, person.id)} />
       )
-  })
-  }
+  });
+  };
 };
 
 export default Persons;

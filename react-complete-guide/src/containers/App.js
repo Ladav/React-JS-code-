@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';   // first letter must be capital
 import Cockpit from '../components/Cockpit/Cockpit';
-import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/withClass';
 
 const StyledButton = styled.button`
   background-color: ${(props) => props.alter ? 'red' : 'green'};
@@ -37,7 +37,8 @@ class App extends Component {
     ],
     otherState: 'this is state property !',
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    counter: 0
   };
 
   static getDrivedStateFromProps(props, state) {
@@ -85,7 +86,12 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[index] = person;
 
-    this.setState({ persons: persons });
+    this.setState((prevState, props) => {
+      return { 
+        persons: persons,
+        counter: ++prevState.counter
+      };
+    });
   };
 
   togglePersonsHandler = () => {
@@ -126,7 +132,7 @@ class App extends Component {
     }
 
     return(
-      <WithClass classes={classes.App}>
+      <>
         <button onClick={() => {this.setState({ showCockpit: false })}}>Remove Cockpit</button>
         { this.state.showCockpit ? 
         <Cockpit 
@@ -136,7 +142,7 @@ class App extends Component {
         clicked={this.togglePersonsHandler} />
         : null}
         {persons}
-      </WithClass>
+      </>
     );
   };
 };
@@ -178,4 +184,4 @@ class App extends Component {
 //   //return React.createElement('div', { className: 'App'}, React.createElement('h1', null, 'my second react app.'));
 // };
 
-export default App;
+export default withClass(App, classes.App);
