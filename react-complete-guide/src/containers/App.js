@@ -1,27 +1,15 @@
 import React, { Component } from 'react';
+
 // import Radium, { StyleRoot } from 'radium';
 // import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 // import Person from '../components/Persons/Person/Person';   // first letter must be capital
-import styled from 'styled-components';
+//import styled from 'styled-components';
 
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';   // first letter must be capital
 import Cockpit from '../components/Cockpit/Cockpit';
 import withClass from '../hoc/withClass';
-
-const StyledButton = styled.button`
-  background-color: ${(props) => props.alter ? 'red' : 'green'};
-  color: #fff;
-  padding: 10px;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${(props) => props.alter ? 'salmon' : 'lightgreen'};
-    color: #000;
-  }
-`;
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
   constructor(props) {
@@ -38,7 +26,8 @@ class App extends Component {
     otherState: 'this is state property !',
     showPersons: false,
     showCockpit: true,
-    counter: 0
+    counter: 0,
+    authenticated: false
   };
 
   static getDrivedStateFromProps(props, state) {
@@ -100,6 +89,10 @@ class App extends Component {
     });
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  }
+
   render() {
     console.log('[App.js] render');
 
@@ -134,14 +127,16 @@ class App extends Component {
     return(
       <>
         <button onClick={() => {this.setState({ showCockpit: false })}}>Remove Cockpit</button>
-        { this.state.showCockpit ? 
-        <Cockpit 
-        title={this.props.appTitle}
-        personLength={this.state.persons.length}
-        showPersons={this.state.showPersons}
-        clicked={this.togglePersonsHandler} />
-        : null}
-        {persons}
+        <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>
+          { this.state.showCockpit ? 
+          <Cockpit 
+          title={this.props.appTitle}
+          personLength={this.state.persons.length}
+          showPersons={this.state.showPersons}
+          clicked={this.togglePersonsHandler}/>
+          : null}
+          {persons}
+        </AuthContext.Provider>
       </>
     );
   };
