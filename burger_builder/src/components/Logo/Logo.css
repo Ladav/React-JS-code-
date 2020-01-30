@@ -1,8 +1,8 @@
 .Logo {
-    height: 80%;
+    height: 100%;
     padding: 8px;
     box-sizing: border-box;
-    background-color: aliceblue;
+    background-color: #fff;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
