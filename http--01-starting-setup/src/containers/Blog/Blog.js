@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { Component, Suspense } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Posts from './Posts/Posts';
 import Navigation from '../../components/Navigation/Navigation';
-import NewPost from './NewPost/NewPost';
-import FullPost from './FullPost/FullPost';
-
 import './Blog.css';
+// import NewPost from './NewPost/NewPost';
+import asyncComponent from '../../hoc/asyncComponent';
+
+const AsyncNewPost = asyncComponent(() => {
+    return import('./NewPost/NewPost');     // dynamic import
+});
 
 class Blog extends Component {
     constructor(props) {
@@ -19,7 +22,7 @@ class Blog extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props);
+        // console.log(this.props);
     }
 
     render() {
@@ -28,9 +31,11 @@ class Blog extends Component {
                 <Navigation />
                 {/* <Route path="/" exact render={() => <Posts />} /> */}
                 <Switch>
-                    <Route path="/" exact component={Posts} />
-                    <Route path="/new-post" component={NewPost} />
-                    <Route path="/:id" component={FullPost} />
+                    <Route path="/posts" component={Posts} />
+                    <Route path="/new-post" component={AsyncNewPost} />
+                    {/* <Route render={() => <h1>404</h1>} /> */}
+                    {/* <Redirect from="/" to="/posts" /> */}
+                    {/* <Route path="/" component={Posts} /> */}
                 </Switch>
             </div>
         );

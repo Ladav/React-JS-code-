@@ -101,40 +101,45 @@ class BurgerBuilder extends Component {
     };
 
     purchaseContinueHandler = () => {
-        this.setState((prevState, prevProps) => {
-            return {loading: !prevState.loading};
-        });
+        // this.setState((prevState, prevProps) => {
+        //     return {loading: !prevState.loading};
+        // });
 
-        // alert('you continue!');
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                username: "ladav",
-                address: "\\0o0/",
-                zipCode: "160016",
-                country: "hindustan"
-            },
-            email: "test@test.com",
-            delivery: "fastest"
-        };
+        
+        // // alert('you continue!');
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer: {
+        //         username: "ladav",
+        //         address: "\\0o0/",
+        //         zipCode: "160016",
+        //         country: "hindustan"
+        //     },
+        //     email: "test@test.com",
+        //     delivery: "fastest"
+        // };
+        
+        // axios.post('/orders.json', order)
+        // .then(response => {
+        //     this.setState({
+        //         loading: false,
+        //         purchasing: false
+        //     });
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        //     this.setState({
+        //         loading: false,
+        //         purchasing: false
+        //     });
+        // });
 
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({
-                    loading: false,
-                    purchasing: false
-                });
-            })
-            .catch(error => {
-                console.log(error)
-                this.setState({
-                    loading: false,
-                    purchasing: false
-                });
-            });
+        
+        // routing to checkout page
+        this.props.history.push('/checkout');
     };
-
+    
     render() {
         const disabledInfo = {
             ...this.state.ingredients

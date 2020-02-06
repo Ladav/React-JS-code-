@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 
 import Post from '../../../components/Post/Post';
 import axiosInstance from '../../../axios';
+import FullPost from '../FullPost/FullPost';
 import './Posts.css';
 
 class Posts extends Component {
@@ -31,17 +33,18 @@ class Posts extends Component {
     };
 
     postSelectionHandler = (id) => {
-        this.props.history.push({ pathname: '/' +id });
-        // this.props.history.push('/' + id);
+        this.props.history.push({ pathname: '/posts/' + id });
+        // this.props.history.push('/posts/' + id);
     };
 
     render() {
+        console.log('posts')
         let posts = <p style={{ textAlign: 'center' }}>something went wrong!</p>;
         if (!this.state.error) {
-            console.log(this.props)
+            // console.log(this.props)
             posts = this.state.posts
                 .map(post => (
-                    //<NavLink to={"/" + post.id} >
+                    //<NavLink to={"/posts/" + post.id} >
                     <Post
                         key={post.id}
                         title={post.title}
@@ -51,9 +54,14 @@ class Posts extends Component {
                 ));
         }
 
-        return (<section className="Posts">
-            {posts}
-        </section>);
+        return (
+            <div>
+                <section className="Posts">
+                    {posts}
+                </section>
+                <Route path={this.props.match.url + "/:id"} component={FullPost} />
+            </div>
+        );
     };
 }
 
