@@ -6,7 +6,6 @@
 
 @media (min-width: 600px) {
     .CheckoutSummary {
-        width: 100%;
-        margin: auto;
+        width: 500px;
     }
 }
