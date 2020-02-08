@@ -57,7 +57,7 @@ class Posts extends Component {
         return (
             <div>
                 <section className="Posts">
-                    {posts}
+                    {posts} 
                 </section>
                 <Route path={this.props.match.url + "/:id"} component={FullPost} />
             </div>

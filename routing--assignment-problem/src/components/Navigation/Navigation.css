@@ -1,0 +1,23 @@
+.Navigation {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    border-bottom: 2px solid #eee;
+    box-sizing: 0 2px 3px #ccc;
+}
+
+.Navigation a{
+    color: #ccc;
+    text-decoration: none;
+    outline: none;
+    padding: 0 20px;
+}
+
+.active:link,
+.active:active {
+    color: #ccc;
+    text-decoration: none;
+    outline: none;
+}
