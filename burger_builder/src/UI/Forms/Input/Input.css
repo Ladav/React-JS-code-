@@ -29,7 +29,7 @@
 }
 
 .Invalid {
-    border: rgb(168, 41, 41);
+    border: 1px solid rgb(168, 41, 41);
     background: rgb(245, 123, 123);
 }
 
