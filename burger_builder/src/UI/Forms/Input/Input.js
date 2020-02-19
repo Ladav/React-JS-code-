@@ -4,7 +4,7 @@ import classes from './Input.css';
 const input = (props) => {
     let inputElement = null;
     const inputClasses = [classes.InputElement];
-    console.log(props)
+    
     let validationError = null;
     if (props.invalid && props.touched) {
         validationError = <p className={classes.ValidationError}>please enter valid {props.type}.</p>;
